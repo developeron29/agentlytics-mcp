@@ -4,6 +4,10 @@
 
 You deploy it to your own Cloudflare account (Workers + D1, the free tier is enough for most small sites). Your data stays in your account.
 
+![Example questions an agent answers with agentlytics-mcp: audience, funnels, best channel and tracked launches](docs/examples.png)
+
+<sub>Example questions and answers; the numbers are illustrative.</sub>
+
 > Don't want to run it yourself? **[measuremy.site](https://measuremy.site/?utm_source=github&utm_medium=referral&utm_campaign=agentlytics-mcp)** is the hosted version: same MCP tools, plus a dashboard, AI explanations of traffic spikes, tracking of posts that mention you (Hacker News, Bluesky, YouTube...), alerts and weekly summaries. Free for 10,000 pageviews a month.
 
 ## What your agent can do
