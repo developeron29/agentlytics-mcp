@@ -39,6 +39,20 @@ Check what applies where you and your visitors are; this is not legal advice.
 
 ## Deploy
 
+### One click
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/developeron29/agentlytics-mcp)
+
+The button copies this repo to your GitHub account, creates the D1 database, runs the migrations and deploys the worker. It asks for three settings:
+
+- `SITE_DOMAIN`: your website's domain, like `example.com` (no `https://` or `www`)
+- `HASH_SECRET`: any long random string, used to make the daily visitor id
+- `MCP_READ_KEY`: another long random string, the key your AI agent uses
+
+Generate the two random values with `openssl rand -hex 32`, and keep `MCP_READ_KEY` for connecting your agent below.
+
+### By hand
+
 You need a Cloudflare account and Node.js 20+.
 
 ```sh
@@ -54,30 +68,29 @@ npx wrangler login
    npx wrangler d1 create agentlytics-mcp
    ```
 
-2. **Set your domain** in `wrangler.jsonc` (`"SITE_DOMAIN": "yourdomain.com"`, without `https://` or `www`).
-
-3. **Create the tables:**
+2. **Set the three settings.** Use long random values for the two keys, for example from `openssl rand -hex 32`:
 
    ```sh
-   npm run db:migrate
-   ```
-
-4. **Set two secrets.** Use long random values, for example from `openssl rand -hex 32`:
-
-   ```sh
+   npx wrangler secret put SITE_DOMAIN     # e.g. example.com
    npx wrangler secret put HASH_SECRET     # makes the daily visitor id; never share it
    npx wrangler secret put MCP_READ_KEY    # the key your agent uses; keep it out of your repo
    ```
 
-5. **Deploy:**
+   Wrangler may offer to create the worker on the first `secret put`; say yes.
+
+3. **Deploy** (this also creates the tables):
 
    ```sh
    npm run deploy
    ```
 
-   Wrangler prints your worker's URL, like `https://agentlytics-mcp.<you>.workers.dev`. Opening it shows a status page. You can also attach a custom domain such as `stats.yourdomain.com` in the Cloudflare dashboard.
+Either way you get a worker URL like `https://agentlytics-mcp.<you>.workers.dev`. Opening it shows a status page with your domain. You can attach a custom domain such as `stats.yourdomain.com` in the Cloudflare dashboard.
 
-If `wrangler deploy` complains about the `ratelimits` block, delete it from `wrangler.jsonc`; the server works without it.
+**Optional rate limit:** to cap how often one IP can send hits, add this to `wrangler.jsonc` and deploy again:
+
+```jsonc
+"ratelimits": [{ "name": "COLLECT_LIMITER", "namespace_id": "1001", "simple": { "limit": 120, "period": 60 } }]
+```
 
 ## Add the tracker to your site
 
@@ -155,6 +168,7 @@ Point your coding agent at [`AGENTS.md`](AGENTS.md): "Deploy agentlytics-mcp for
 ## Develop
 
 ```sh
+cp .dev.vars.example .dev.vars   # then edit the values
 npm run db:migrate:local
 npx wrangler dev
 npm test

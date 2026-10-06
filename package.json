@@ -7,11 +7,11 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "deploy": "npm run db:migrate && wrangler deploy",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "db:migrate:local": "wrangler d1 migrations apply agentlytics-mcp --local",
-    "db:migrate": "wrangler d1 migrations apply agentlytics-mcp --remote"
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate": "wrangler d1 migrations apply DB --remote"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.22.0",
@@ -25,5 +25,18 @@
     "workerd@1.20260815.1": true,
     "workerd@1.20261001.1": true,
     "esbuild@0.28.1": true
+  },
+  "cloudflare": {
+    "bindings": {
+      "SITE_DOMAIN": {
+        "description": "Your website's domain without https:// or www, e.g. example.com. Only visits from this domain are recorded."
+      },
+      "HASH_SECRET": {
+        "description": "Any long random string (e.g. from `openssl rand -hex 32`). Used to make the daily visitor id; never share it."
+      },
+      "MCP_READ_KEY": {
+        "description": "Another long random string. Your AI agent sends it as the Bearer token to read your analytics; keep it private."
+      }
+    }
   }
 }

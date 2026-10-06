@@ -1,0 +1,3 @@
+SITE_DOMAIN=example.com # your website's domain, without https:// or www
+HASH_SECRET=change-me-to-a-long-random-string # makes the daily visitor id
+MCP_READ_KEY=change-me-to-another-long-random-string # the key your AI agent uses

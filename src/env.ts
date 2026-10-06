@@ -18,7 +18,7 @@ export interface Site {
   domain: string;
 }
 
-export const siteOf = (env: Env): Site => ({ id: SITE_ID, domain: env.SITE_DOMAIN.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/.*$/, "") });
+export const siteOf = (env: Env): Site => ({ id: SITE_ID, domain: (env.SITE_DOMAIN ?? "").trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/.*$/, "") });
 
 export const HOSTED_URL = "https://measuremy.site";
 export const HOUR_MS = 3_600_000;
