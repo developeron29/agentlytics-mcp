@@ -1,0 +1,24 @@
+{
+  "name": "agentlytics-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-20",
+  "observability": { "enabled": true },
+  // Hourly: rollups, spike detection and retention.
+  "triggers": { "crons": ["0 * * * *"] },
+  "vars": {
+    // Your website's domain, e.g. "example.com". Only visits from this domain (and its subdomains) are recorded.
+    "SITE_DOMAIN": "example.com"
+  },
+  // Optional per-IP cap on /collect. Delete this block if your plan doesn't support rate limiting.
+  "ratelimits": [{ "name": "COLLECT_LIMITER", "namespace_id": "1001", "simple": { "limit": 120, "period": 60 } }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "agentlytics-mcp",
+      // Paste the id printed by: npx wrangler d1 create agentlytics-mcp
+      "database_id": "REPLACE_WITH_YOUR_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ]
+  // Secrets (npx wrangler secret put NAME): HASH_SECRET, MCP_READ_KEY
+}

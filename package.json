@@ -1,0 +1,29 @@
+{
+  "name": "agentlytics-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Self-hosted, cookieless website analytics with an MCP server your AI agent can read. Runs on Cloudflare Workers and D1.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply agentlytics-mcp --local",
+    "db:migrate": "wrangler d1 migrations apply agentlytics-mcp --remote"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "@cloudflare/workers-types": "^5.20261002.1",
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.146.0"
+  },
+  "allowScripts": {
+    "workerd@1.20260815.1": true,
+    "workerd@1.20261001.1": true,
+    "esbuild@0.28.1": true
+  }
+}
