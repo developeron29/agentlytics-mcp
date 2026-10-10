@@ -1,14 +1,16 @@
-# agentlytics-mcp
+# measuremysite-mcp
 
-**Website analytics your AI agent can read.** A small, cookieless analytics server for one website, with an [MCP](https://modelcontextprotocol.io) server built in, so Claude Code, Cursor or Codex can look at your traffic and help you decide what to do next.
+**Cookieless web analytics your AI agent can read.** A small analytics server for one website, with an [MCP](https://modelcontextprotocol.io) server built in, so Claude Code, Cursor or Codex can look at your traffic and help you decide what to do next.
 
 You deploy it to your own Cloudflare account (Workers + D1, the free tier is enough for most small sites). Your data stays in your account.
 
-![Example questions an agent answers with agentlytics-mcp: audience, funnels, best channel and tracked launches](docs/examples.png)
+This repo used to be called `agentlytics-mcp`. The worker, database, tracker (`agentlytics.track`) and MCP server keep that name so existing installs keep working.
+
+![Example questions an agent answers with measuremysite-mcp: audience, funnels, best channel and tracked launches](docs/examples.png)
 
 <sub>Example questions and answers; the numbers are illustrative.</sub>
 
-> Don't want to run it yourself? **[measuremy.site](https://measuremy.site/?utm_source=github&utm_medium=referral&utm_campaign=agentlytics-mcp)** is the hosted version: same MCP tools, plus a dashboard, AI explanations of traffic spikes, tracking of posts that mention you (Hacker News, Bluesky, YouTube...), alerts and weekly summaries. Free for 10,000 pageviews a month.
+> Don't want to run it yourself? **[measuremy.site](https://measuremy.site/?utm_source=github&utm_medium=referral&utm_campaign=measuremysite-mcp)** is the hosted version: same MCP tools, plus a dashboard, AI explanations of traffic spikes, tracking of posts that mention you (Hacker News, Bluesky, YouTube...), alerts and weekly summaries. 30-day free trial, no card; plans from $9 a month.
 
 ## What your agent can do
 
@@ -45,7 +47,7 @@ Check what applies where you and your visitors are; this is not legal advice.
 
 ### One click
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/developeron29/agentlytics-mcp)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/developeron29/measuremysite-mcp)
 
 The button copies this repo to your GitHub account, creates the D1 database, runs the migrations and deploys the worker. It asks for three settings:
 
@@ -60,8 +62,8 @@ Generate the two random values with `openssl rand -hex 32`, and keep `MCP_READ_K
 You need a Cloudflare account and Node.js 20+.
 
 ```sh
-git clone https://github.com/developeron29/agentlytics-mcp.git
-cd agentlytics-mcp
+git clone https://github.com/developeron29/measuremysite-mcp.git
+cd measuremysite-mcp
 npm install
 npx wrangler login
 ```
@@ -153,11 +155,11 @@ Then ask: *"Use agentlytics to tell me how my site did this week."* Spikes need 
 
 ### Let your agent do the setup
 
-Point your coding agent at [`AGENTS.md`](AGENTS.md): "Deploy agentlytics-mcp for my site by following AGENTS.md". It walks through every step and asks you before anything that needs your Cloudflare login.
+Point your coding agent at [`AGENTS.md`](AGENTS.md): "Deploy measuremysite-mcp for my site by following AGENTS.md". It walks through every step and asks you before anything that needs your Cloudflare login.
 
 ## Self-hosted or hosted?
 
-| | agentlytics-mcp (this repo) | [measuremy.site](https://measuremy.site/pricing?utm_source=github&utm_medium=referral&utm_campaign=agentlytics-mcp) |
+| | measuremysite-mcp (this repo) | [measuremy.site](https://measuremy.site/pricing?utm_source=github&utm_medium=referral&utm_campaign=measuremysite-mcp) |
 |---|---|---|
 | MCP tools for your agent | Yes | Yes |
 | Cookieless tracking, funnels, spikes, campaigns | Yes | Yes |
@@ -167,7 +169,7 @@ Point your coding agent at [`AGENTS.md`](AGENTS.md): "Deploy agentlytics-mcp for
 | Posts that mention you (HN, Lobsters, Bluesky, YouTube, Reddit) | No | Yes, on your traffic chart |
 | Alerts, weekly email summary | No | Yes |
 | Who runs it | You, on your Cloudflare account | Us |
-| Price | Free (your Cloudflare usage) | Free up to 10,000 pageviews a month, then paid plans |
+| Price | Free (your Cloudflare usage) | 30-day free trial, then from $9 a month |
 
 ## Develop
 
